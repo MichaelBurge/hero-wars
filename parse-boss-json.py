@@ -1,14 +1,12 @@
 #!/usr/bin/env nix-shell
-#! nix-shell -i python3 -p python3 python3Packages.XlsxWriter python3Packages.scikit-learn python3Packages.numpy
+#! nix-shell -i python3 -p python3 python3Packages.XlsxWriter python3Packages.numpy
 
 import json 
 import itertools
 import xlsxwriter
 from datetime import datetime
 import argparse
-from sklearn.decomposition import FastICA
 import numpy
-from scipy.optimize import nnls
 import math
 
 parser = argparse.ArgumentParser()
@@ -278,10 +276,6 @@ def add_match_detail_page(workbook, summary_data, guild_data, hero_data):
         for k, v in match["effects"]["attackers"].items():
             buffstrings.append(k + ':' + str(v))
         write_column(','.join(buffstrings))
-        # match_damages = get_match_damages(match)
-        # write_column(sum(match_damages))
-        # write_column(match_damages[0])
-        # write_column(match_damages[1])
         def get_attacker(hero_id):
             attackers = list(match["attackers"].values())
             if hero_id < len(attackers):
@@ -294,7 +288,6 @@ def add_match_detail_page(workbook, summary_data, guild_data, hero_data):
                 write_hero(hero)
             else:
                 raise Exception("Unknown hero type: " + hero["type"])
-        #print(get_attacker(5))
         write_pet(get_attacker(5))
         finish_row()
 
@@ -309,7 +302,6 @@ def add_hero_summary_page(workbook, boss_matches, hero_data):
     for _, matches in all_matches:
         for _, match in matches.items():
             num_matches += 1
-    print(f"{num_matches=}")
     arr_damages = numpy.zeros(num_matches, dtype=float)
     arr_counts = numpy.zeros(num_heroes, dtype=int)
     arr_powers = numpy.zeros((num_matches, num_heroes), dtype=float)
@@ -334,12 +326,6 @@ def add_hero_summary_page(workbook, boss_matches, hero_data):
                     arr_presence[match_idx, hero_idx] = 1.0
             match_idx += 1
     arr_hero_team_damages[:, 0] = arr_damages # Pet is always present
-    print(arr_powers, arr_damages)
-    arr_weights, arr_residuals, rank, singular = numpy.linalg.lstsq(arr_powers, arr_damages, rcond=None)
-    #arr_weights, arr_residuals, rank, singular = numpy.linalg.lstsq(arr_powers / arr_powers.mean(axis=0), arr_damages / arr_damages.mean(), rcond=None)
-    #arr_weights, _, _, _ = numpy.linalg.lstsq(arr_presence, arr_damages)
-    # arr_weights, arr_residuals = nnls(arr_powers, arr_damages)
-    #arr_weights, arr_residuals = nnls(arr_presence, arr_damages)
     worksheet = workbook.add_worksheet("Hero Summary")
     worksheet.write(0,0,"Hero")
     worksheet.write(0,1,"Count")
@@ -347,8 +333,6 @@ def add_hero_summary_page(workbook, boss_matches, hero_data):
     worksheet.write(0,3,"Average team damage")
     worksheet.write(0,4,"Team Damage per Hero Power")
     format_integer = workbook.add_format({'num_format': 1})
-    #print(f"{arr_powers=}", f"{arr_damages=}")
-    #print(f"{arr_weights=}")
     rows = []
     for hero_id in range(1, num_heroes):
         avg_over_nonzero = lambda arr: numpy.mean(arr[:, hero_id], axis=0, where=(arr[:, hero_id] > 0))
@@ -368,7 +352,12 @@ def add_hero_summary_page(workbook, boss_matches, hero_data):
 
 def convert_json_to_xlsx(asgard_data, guild_data, hero_data):
     timestamp = asgard_data["date"] # 1638051586
-    _, summary_data, minion_matches, boss_matches = asgard_data["results"]
+    if len(asgard_data["results"]) == 4:
+        _, summary_data, minion_matches, boss_matches = asgard_data["results"]
+    elif len(asgard_data["results"]) == 3:
+        summary_data, minion_matches, boss_matches = asgard_data["results"]
+    else:
+        raise Exception("Unknown number of results in JSON")
     workbook = xlsxwriter.Workbook(datetime.utcfromtimestamp(timestamp).strftime('Asgard-%Y-%m-%dT%H:%M:%S.xlsx'))
     add_damage_summaries_page(workbook, summary_data, guild_data)
     add_match_detail_page(workbook, boss_matches, guild_data, hero_data)
