@@ -1,11 +1,15 @@
 #!/usr/bin/env nix-shell
-#! nix-shell -i python3 -p python3 pythonPackages.XlsxWriter
+#! nix-shell -i python3 -p python3 python3Packages.XlsxWriter python3Packages.scikit-learn python3Packages.numpy
 
 import json 
 import itertools
 import xlsxwriter
 from datetime import datetime
 import argparse
+from sklearn.decomposition import FastICA
+import numpy
+from scipy.optimize import nnls
+import math
 
 parser = argparse.ArgumentParser()
 parser.add_argument('asgard_file', type=str, help='file containing JSON to convert to spreadsheet')
@@ -21,10 +25,6 @@ ALL_COLORS = [
     "O","O+1","O+2","O+3","O+4",
     "R","R+1","R+2"
 ]
-
-ALL_PETS = {
-
-}
 
 # Output 2: 
 
@@ -193,6 +193,7 @@ def add_match_detail_page(workbook, summary_data, guild_data, hero_data):
     format_error = workbook.add_format({'bold': True, 'bg_color': 'red', 'font_color': 'yellow'})
     format_warning = workbook.add_format({'bold': True, 'bg_color': 'yellow', 'font_color': 'black'})
     format_integer = workbook.add_format({'num_format': 1})
+    format_percent = workbook.add_format({'num_format': 3})
 
     pos = [ 0, 0 ]
     def write_column(x, format=None, canError=True):
@@ -243,11 +244,14 @@ def add_match_detail_page(workbook, summary_data, guild_data, hero_data):
     columns = [
         "Player name",
         "Datetime",
+        "Replay Link",
         "Boss Level at End of Fight",
         "Number of Bosses Fought",
         "Total Damage to Boss",
         "Damage to Boss #1",
-        "Damage to Boss #2"
+        "Damage to Boss #2",
+        "Guild Morale",
+        "Buffs"
     ] + (hero_columns * 5) + pet_columns
     for column_name in columns:
         write_column(column_name)
@@ -261,6 +265,7 @@ def add_match_detail_page(workbook, summary_data, guild_data, hero_data):
     for (player_id, match_id), match in sorted_matches:
         write_column(lookup_player(guild_data, player_id))
         write_column(datetime.utcfromtimestamp(int(match["startTime"])).isoformat())
+        write_column("https://hero-wars.com?replay_id=" + match_id)
         write_column(match["result"]["level"])
         bossProgress = list(match["progress"][0]["defenders"]["heroes"].values())[0]["extra"]
         bossProgresses = [int(bossProgress[key]) for key in [ "damageTaken", "damageTakenNextLevel"]]
@@ -268,6 +273,11 @@ def add_match_detail_page(workbook, summary_data, guild_data, hero_data):
         write_column(sum(bossProgresses), format_integer)
         write_column(bossProgresses[0], format_integer)
         write_column(bossProgresses[1], format_integer)
+        write_column(match["effects"]["attackers"]["percentDamageBuff_any"], format_percent)
+        buffstrings = []
+        for k, v in match["effects"]["attackers"].items():
+            buffstrings.append(k + ':' + str(v))
+        write_column(','.join(buffstrings))
         # match_damages = get_match_damages(match)
         # write_column(sum(match_damages))
         # write_column(match_damages[0])
@@ -288,12 +298,81 @@ def add_match_detail_page(workbook, summary_data, guild_data, hero_data):
         write_pet(get_attacker(5))
         finish_row()
 
+def add_hero_summary_page(workbook, boss_matches, hero_data):
+    """
+    Output: Hero|Count|Estimated Damage Weight
+    """
+
+    all_matches = list(boss_matches["result"]["response"].items())
+    num_heroes = len(hero_data["heroes"]) # Includes the placeholder, but whatever.
+    num_matches = 0
+    for _, matches in all_matches:
+        for _, match in matches.items():
+            num_matches += 1
+    print(f"{num_matches=}")
+    arr_damages = numpy.zeros(num_matches, dtype=float)
+    arr_counts = numpy.zeros(num_heroes, dtype=int)
+    arr_powers = numpy.zeros((num_matches, num_heroes), dtype=float)
+    arr_presence = numpy.zeros((num_matches, num_heroes), dtype=float)
+    arr_hero_team_damages = numpy.zeros((num_matches, num_heroes), dtype=float)
+    arr_presence[:, 0] = 1.0 # Pet is always present
+    arr_powers[:,0] = 100000 # Albus is usually present
+    match_idx = 0
+    for player_id, matches in all_matches:
+        for match_id, match in matches.items():
+            damages = list(match["progress"][0]["defenders"]["heroes"].values())[0]["extra"]
+            damage1 = int(damages["damageTaken"])
+            damage2 = int(damages["damageTakenNextLevel"])
+            total_damage = damage1 + damage2
+            arr_damages[match_idx] = total_damage
+            for hero_id, attacker in match["attackers"].items():
+                hero_idx = int(hero_id)
+                if attacker["type"] == "hero":
+                    arr_counts[hero_idx] += 1
+                    arr_powers[match_idx, hero_idx] = attacker["power"] # attacker["power"]/30000.0 # math.log(1 + attacker["power"] / 30000.0)
+                    arr_hero_team_damages[match_idx, hero_idx] = total_damage
+                    arr_presence[match_idx, hero_idx] = 1.0
+            match_idx += 1
+    arr_hero_team_damages[:, 0] = arr_damages # Pet is always present
+    print(arr_powers, arr_damages)
+    arr_weights, arr_residuals, rank, singular = numpy.linalg.lstsq(arr_powers, arr_damages, rcond=None)
+    #arr_weights, arr_residuals, rank, singular = numpy.linalg.lstsq(arr_powers / arr_powers.mean(axis=0), arr_damages / arr_damages.mean(), rcond=None)
+    #arr_weights, _, _, _ = numpy.linalg.lstsq(arr_presence, arr_damages)
+    # arr_weights, arr_residuals = nnls(arr_powers, arr_damages)
+    #arr_weights, arr_residuals = nnls(arr_presence, arr_damages)
+    worksheet = workbook.add_worksheet("Hero Summary")
+    worksheet.write(0,0,"Hero")
+    worksheet.write(0,1,"Count")
+    worksheet.write(0,2,"Average power")
+    worksheet.write(0,3,"Average team damage")
+    worksheet.write(0,4,"Team Damage per Hero Power")
+    format_integer = workbook.add_format({'num_format': 1})
+    #print(f"{arr_powers=}", f"{arr_damages=}")
+    #print(f"{arr_weights=}")
+    rows = []
+    for hero_id in range(1, num_heroes):
+        avg_over_nonzero = lambda arr: numpy.mean(arr[:, hero_id], axis=0, where=(arr[:, hero_id] > 0))
+        avg_power = avg_over_nonzero(arr_powers)
+        avg_team_damage = avg_over_nonzero(arr_hero_team_damages)
+        rows.append([
+            lookup_hero(hero_data, hero_id),
+            arr_counts[hero_id],
+            avg_power,
+            avg_team_damage,
+            avg_team_damage / avg_power
+        ])
+    rows.sort(reverse=True, key=lambda x: x[4])
+    for row_id, row in enumerate(rows, start=1):
+        for col_id, cell in enumerate(row):
+            worksheet.write(row_id, col_id, cell, format_integer)
+
 def convert_json_to_xlsx(asgard_data, guild_data, hero_data):
     timestamp = asgard_data["date"] # 1638051586
     _, summary_data, minion_matches, boss_matches = asgard_data["results"]
     workbook = xlsxwriter.Workbook(datetime.utcfromtimestamp(timestamp).strftime('Asgard-%Y-%m-%dT%H:%M:%S.xlsx'))
     add_damage_summaries_page(workbook, summary_data, guild_data)
     add_match_detail_page(workbook, boss_matches, guild_data, hero_data)
+    add_hero_summary_page(workbook, boss_matches, hero_data)
     workbook.close()
 
 
