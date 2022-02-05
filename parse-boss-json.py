@@ -14,9 +14,10 @@ import glob
 
 parser = argparse.ArgumentParser()
 parser.add_argument('asgard_file', type=str, help='file containing JSON to convert to spreadsheet')
-parser.add_argument('guild_file', type=str, help='file containing guild data JSON')
-parser.add_argument('heroes_file', type=str, help='file containing hero and pet data')
-parser.add_argument('history_format', type=str, help='file glob template to compute historical data over')
+parser.add_argument('--guild_file', type=str, help='file containing guild data JSON', default='data/guild.json')
+parser.add_argument('--heroes_file', type=str, help='file containing hero and pet data', default='data/heroes.yaml')
+parser.add_argument('--buff_file', type=str, help='file containing buff data', default='data/asgard-buffs.yaml')
+parser.add_argument('--history_format', type=str, help='file glob template to compute historical data over', default='data/asgard-*.json')
 
 ALL_COLORS = [
     "NONE",
@@ -64,6 +65,30 @@ def all_players(players_data):
                     yield player_id, player["name"]
         else:
             continue
+
+def lookup_buff(buff_data, buff_id):
+    """
+    Input:
+    {
+        "buffInternalName": "buffUserName"
+    }
+    """
+    for (buff_id_prefix, buff) in buff_data.items():
+        if type(buff) == str:
+            buff_name = buff
+            buff_gold = 0
+            buff_size = None
+            buff_exact_name = False
+        else:
+            (buff_name, buff_gold, buff_size, buff_exact_name) = buff["name"], int(float(buff["gold"])), buff["size"], buff.get("exactName", False)
+        if buff_exact_name:
+            check = lambda x: x == buff_id_prefix
+        else:
+            check = lambda x: x.startswith(buff_id_prefix)
+        if check(buff_id):
+            return (buff_name, buff_gold, buff_size)
+    else:
+        return None
 
 def lookup_player(players_data, player_id):
     """
@@ -117,6 +142,26 @@ def lookup_hero(hero_data, hero_id):
     """
     hero  = hero_data["heroes"][hero_id]
     return hero
+
+def get_num_buffs(buff_data, buff_id, buff_amount):
+    buff_name, buff_gold, buff_size = lookup_buff(buff_data, buff_id)
+    if buff_size == None:
+        return 1
+    else:
+        count = math.ceil(buff_amount / buff_size)
+        assert count >= 1 and count <= 5, f"buff:{buff_name} amount:{buff_amount} size:{buff_size} count:{count}"
+        return count
+
+def get_buff_gold(buff_data, buff_id, buff_amount):
+    buff_name, buff_gold, buff_size = lookup_buff(buff_data, buff_id)
+    if buff_size == None:
+        if buff_gold > 0:
+            raise f"Buff gold is non-zero for purchasable buff: {buff_name} = {buff_gold}"
+        ret = 0
+    else:
+        ret = buff_gold * get_num_buffs(buff_data, buff_id, buff_amount)
+    #print(f"buff:{buff_name} total_amount:{buff_amount} size:{buff_size} gold:{ret}")
+    return ret
 
 def lookup_pet(hero_data, pet_id):
     """
@@ -212,10 +257,10 @@ def add_damage_summaries_page(workbook, summary_data, match_data, guild_data):
         worksheet.write(row_id, 1, int(player_stats.get("bossDamage", 0)))
         bossAttemptsSpent = player_stats.get("bossAttemptsSpent", 0)
         worksheet.write(row_id, 2, int(bossAttemptsSpent), None if bossAttemptsSpent == MAX_BOSS_ATTEMPTS else format_error)
-        nodesPoints = player_stats.get("nodesPoints", 0)
-        worksheet.write(row_id, 3, int(nodesPoints), None if nodesPoints is not None else format_error)
-        nodesAttemptsSpent = player_stats.get("nodesAttemptsSpent", 0)
-        worksheet.write(row_id, 4, int(nodesAttemptsSpent), None if nodesAttemptsSpent == MAX_MINION_ATTEMPTS else format_error)
+        nodesPoints = player_stats.get("nodesPoints")
+        worksheet.write(row_id, 3, int(nodesPoints or 0), None if nodesPoints is not None else format_error)
+        nodesAttemptsSpent = player_stats.get("nodesAttemptsSpent")
+        worksheet.write(row_id, 4, int(nodesAttemptsSpent or 0), None if nodesAttemptsSpent == MAX_MINION_ATTEMPTS else format_error)
         player_boss_damages = boss_damages.get(player_id)
         for i, difficulty in enumerate(difficulties, 5):
             if player_boss_damages is None:
@@ -368,6 +413,52 @@ def add_match_detail_page(workbook, summary_data, guild_data, hero_data):
         write_pet(get_attacker(5))
         finish_row()
 
+def add_buff_summary_page(workbook, match_detail, guild_data, hero_data, buff_data):
+    worksheet = workbook.add_worksheet("Buff Summary")
+    format_error = workbook.add_format({'bold': True, 'bg_color': 'red', 'font_color': 'yellow'})
+    format_warning = workbook.add_format({'bold': True, 'bg_color': 'yellow', 'font_color': 'black'})
+    format_integer = workbook.add_format({'num_format': 1})
+    format_percent = workbook.add_format({'num_format': 3})
+
+    # First two columns are counts of each buff
+    counts = {}
+    for (player_id, matches) in match_detail["result"]["response"].items():
+        match = list(matches.items())[0][1]
+        for (buff_id, buff) in match["effects"]["attackers"].items():
+            (buff_name, _, _) = lookup_buff(buff_data, buff_id)
+            counts.setdefault(buff_id, 0)
+            counts[buff_id] += 1
+    sorted_counts = sorted(counts.items(), key=lambda kv: kv[1], reverse=True)
+    for row, (buff_id, count) in enumerate(sorted_counts):
+        (buff_name, gold, size) = lookup_buff(buff_data, buff_id)
+        worksheet.write(row, 0, buff_name or buff_id, format_warning if buff_name is None else None)
+        worksheet.write(row, 1, count, format_integer)
+    # Then is the buffs-by-player detail
+    buffs_by_player = {}
+    gold_by_player = {}
+    for player_id, player in match_detail["result"]["response"].items():
+        match = list(player.items())[0][1]
+        for buff_id, buff in match["effects"]["attackers"].items():
+            (buff_name, _, _) = lookup_buff(buff_data, buff_id)
+            buffs_by_player.setdefault(player_id, {}).setdefault(buff_id, 0)
+            buffs_by_player[player_id][buff_id] = buff
+            gold_by_player.setdefault(player_id, 0)
+            gold_by_player[player_id] += get_buff_gold(buff_data, buff_id, buff)
+    worksheet.write(0, 4, "Player")
+    worksheet.write(0, 5, "Gold Spent")
+    for row, (player_id, player_buffs) in enumerate(sorted(buffs_by_player.items(), key=lambda kv: lookup_player(guild_data, kv[0])), start=1):
+        worksheet.write(row, 4, lookup_player(guild_data, player_id))
+        worksheet.write(row, 5, gold_by_player[player_id], format_integer)
+        for col, (buff_id, buff) in enumerate(sorted(player_buffs.items(), key= lambda kv: kv[0]), start=6):
+            (buff_name, gold, size) = lookup_buff(buff_data, buff_id)
+            num_buffs = get_num_buffs(buff_data, buff_id, buff)
+            buff_name = buff_name or buff_id
+            if num_buffs == 1:
+                buff_str = buff_name
+            else:
+                buff_str = f"{buff_name}: {num_buffs}"
+            worksheet.write(row, col, buff_str)
+
 def add_hero_summary_page(workbook, boss_matches, hero_data):
     """
     Output: Hero|Count|Estimated Damage Weight
@@ -493,11 +584,12 @@ def read_asgard_data_json(filename):
         raise Exception("Unknown number of results in JSON")
     return timestamp, summary_data, minion_matches, boss_matches
 
-def convert_json_to_xlsx(asgard_data, guild_data, hero_data, history_data):
+def convert_json_to_xlsx(asgard_data, guild_data, hero_data, history_data, buff_data):
     timestamp, summary_data, minion_matches, boss_matches = asgard_data
     workbook = xlsxwriter.Workbook(datetime.utcfromtimestamp(timestamp).strftime('Asgard-%Y-%m-%dT%H:%M:%S.xlsx'))
     add_damage_summaries_page(workbook, summary_data, boss_matches, guild_data)
     add_match_detail_page(workbook, boss_matches, guild_data, hero_data)
+    add_buff_summary_page(workbook, boss_matches, guild_data, hero_data, buff_data)
     add_hero_summary_page(workbook, boss_matches, hero_data)
     add_team_summary_page(workbook, boss_matches, guild_data, hero_data)
     add_history_summary_page(workbook, history_data, guild_data)
@@ -506,17 +598,20 @@ def convert_json_to_xlsx(asgard_data, guild_data, hero_data, history_data):
 
 def main():
     args = parser.parse_args()
+    print(f"Asgard file: {args.asgard_file}")
     asgard_data = read_asgard_data_json(args.asgard_file)
     f = open(args.guild_file)
     guild_data = json.load(f)
     f = open(args.heroes_file)
     hero_data = yaml.safe_load(f)
+    f = open(args.buff_file)
+    buff_data = yaml.safe_load(f)
 
     history_data = []
     for file in glob.glob(args.history_format):
         timestamp, summary_data, minion_matches, boss_matches = read_asgard_data_json(file)
         history_data.append(boss_matches)
 
-    convert_json_to_xlsx(asgard_data, guild_data, hero_data, history_data)
+    convert_json_to_xlsx(asgard_data, guild_data, hero_data, history_data, buff_data)
 
 main()

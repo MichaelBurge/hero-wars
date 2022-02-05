@@ -1,0 +1,26 @@
+# internal name => In-game name
+# Gold buffs
+changeStarSphereIncomingDamage: { name: Defense Sphere Destroyer, gold: 1e6, size: 3 }
+changeTeamStartEnergy: { name: Jumpstart, gold: 1e6, size: 5 }
+changeBlackHoleDamage: { name: Wormhole Suppressor, gold: 1e6, size: 3}
+buffSpeedWhenStarfall: { name: Meteors of Haste, gold: 1e6, size: 20}
+decreaseStarSphereDamage: { name: Defense Sphere Override, gold: 1e6, size: 3, exactName: true }
+# Medal buffs
+percentDamageBuff_any: Guild Morale
+overloadHealDamageStarSphere: Healing Converter
+starfallIncreaseAllyHeal: Chosen by the Stars
+avoidAllBlackholeDamageOnce: {name: Astral Shield, gold: 0, size: 3 }
+#bestDamageBeforeStarSphere: 
+bestDamagerBeforeParadeGetsImprovedBuff: Keeper's Blessing
+decreaseStarSphereDamage_4: Stellar Tank Resilience
+ultEnergyCompensationOnPlanetParade_6: Marksman Opportunity
+bestDamagerOnParadeBecomesImmortal: Immortal Hero
+starSphereDeathGiveEnergy: Sphere Energy Unleashed
+debuffNightmareOnSpawnFrom_7_hp: Mages' Vigilance
+increaseNightmaresIncomingDamageByCount: Dreamer's Retaliation
+engeneerIncreaseStarMachineIncomingDamage_3: Ingenious Engineers
+damageNightmareGiveEnergy: Nightmare's Energy
+undeadPreventsNightmares: Wakeful Undead
+groveKeeperAvoidBlackholeDamageChance: Resilient Grove Keepers
+nightmareDeathGiveLifesteal: Survivor's Willpower
+preventNightmare: Insomnia
