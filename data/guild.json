@@ -1,0 +1,1226 @@
+{
+	"date": 1638703916.484413,
+	"results": [
+		{
+			"ident": "group_0_body",
+			"result": {
+				"response": {
+					"clan": {
+						"id": "132328",
+						"ownerId": "13862301",
+						"level": "1",
+						"title": "Phoenix Ascended",
+						"description": "",
+						"icon": {
+							"flagColor1": 1,
+							"flagColor2": 14,
+							"flagShape": 16,
+							"iconColor": 0,
+							"iconShape": 26
+						},
+						"country": "2",
+						"minLevel": "130",
+						"serverId": "58",
+						"membersCount": "30",
+						"disbanding": false,
+						"topActivity": "457619",
+						"topDungeon": "68780",
+						"roleNames": {
+							"owner": "Phoenix",
+							"officer": "Benched",
+							"member": "Hawk",
+							"warlord": "Warrior"
+						},
+						"frameId": 3,
+						"members": {
+							"9519326": {
+								"id": "9519326",
+								"name": "CentOS",
+								"lastLoginTime": "1638702288",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "297",
+								"isChatModerator": false,
+								"frameId": 46,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9538445": {
+								"id": "9538445",
+								"name": "KnallBB (HWA 1)",
+								"lastLoginTime": "1638694284",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "373",
+								"isChatModerator": false,
+								"frameId": 44,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"10701349": {
+								"id": "9538445",
+								"name": "Kijas",
+								"lastLoginTime": "1638694284",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": null,
+								"avatarId": "373",
+								"isChatModerator": false,
+								"frameId": 44,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9904297": {
+								"id": "9538445",
+								"name": "TiRaecks",
+								"lastLoginTime": "1638694284",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "373",
+								"isChatModerator": false,
+								"frameId": 44,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9554589": {
+								"id": "9554589",
+								"name": "dachshund",
+								"lastLoginTime": "1638699400",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "285",
+								"isChatModerator": false,
+								"frameId": 52,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9562748": {
+								"id": "9562748",
+								"name": "777",
+								"lastLoginTime": "1638696056",
+								"serverId": "58",
+								"level": "125",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "450",
+								"isChatModerator": false,
+								"frameId": 5,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9566390": {
+								"id": "9566390",
+								"name": "ciapotin2",
+								"lastLoginTime": "1638680003",
+								"serverId": "58",
+								"level": "127",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "1",
+								"isChatModerator": false,
+								"frameId": 3,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9574182": {
+								"id": "9574182",
+								"name": "Urbes",
+								"lastLoginTime": "1638702560",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "903",
+								"isChatModerator": false,
+								"frameId": 3,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9590340": {
+								"id": "9590340",
+								"name": "BG 1540675",
+								"lastLoginTime": "1638644239",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": null,
+								"avatarId": "694",
+								"isChatModerator": false,
+								"frameId": 3,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9634920": {
+								"id": "9634920",
+								"name": "Mauerkinder",
+								"lastLoginTime": "1638700962",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "309",
+								"isChatModerator": false,
+								"frameId": 37,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9650978": {
+								"id": "9650978",
+								"name": "Team Force",
+								"lastLoginTime": "1638697361",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "910",
+								"isChatModerator": false,
+								"frameId": 52,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9665042": {
+								"id": "9665042",
+								"name": "Mazeraty",
+								"lastLoginTime": "1638696943",
+								"serverId": "58",
+								"level": "129",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "70",
+								"isChatModerator": false,
+								"frameId": 51,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9688248": {
+								"id": "9688248",
+								"name": "Nobody",
+								"lastLoginTime": "1638699866",
+								"serverId": "58",
+								"level": "129",
+								"clanId": "132328",
+								"clanRole": "2",
+								"avatarId": "1",
+								"isChatModerator": false,
+								"frameId": 3,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9697202": {
+								"id": "9697202",
+								"name": "Vadasz",
+								"lastLoginTime": "1638695438",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "1",
+								"isChatModerator": false,
+								"frameId": 34,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9701001": {
+								"id": "9701001",
+								"name": "Critters",
+								"lastLoginTime": "1638678034",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "2",
+								"avatarId": "875",
+								"isChatModerator": false,
+								"frameId": 51,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9725943": {
+								"id": "9725943",
+								"name": "ScrappyDoo",
+								"lastLoginTime": "1638687595",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "797",
+								"isChatModerator": false,
+								"frameId": 3,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9746355": {
+								"id": "9746355",
+								"name": "Tommi",
+								"lastLoginTime": "1638700875",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "901",
+								"isChatModerator": false,
+								"frameId": 51,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9802653": {
+								"id": "9802653",
+								"name": "HeroWars",
+								"lastLoginTime": "1638702555",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "762",
+								"isChatModerator": false,
+								"frameId": 46,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9845350": {
+								"id": "9845350",
+								"name": "Archie",
+								"lastLoginTime": "1638701848",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "886",
+								"isChatModerator": false,
+								"frameId": 37,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9846519": {
+								"id": "9846519",
+								"name": "Team Hun",
+								"lastLoginTime": "1638689952",
+								"serverId": "58",
+								"level": "126",
+								"clanId": "132328",
+								"clanRole": "2",
+								"avatarId": "686",
+								"isChatModerator": false,
+								"frameId": 50,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9846590": {
+								"id": "9846590",
+								"name": "MegaKaiju",
+								"lastLoginTime": "1638681541",
+								"serverId": "58",
+								"level": "128",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "882",
+								"isChatModerator": false,
+								"frameId": 50,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9878478": {
+								"id": "9878478",
+								"name": "Oriondota",
+								"lastLoginTime": "1638702092",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "306",
+								"isChatModerator": false,
+								"frameId": 5,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9939065": {
+								"id": "9939065",
+								"name": "Yaki",
+								"lastLoginTime": "1638699464",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "290",
+								"isChatModerator": false,
+								"frameId": 5,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9945536": {
+								"id": "9945536",
+								"name": "HEMEC226",
+								"lastLoginTime": "1638676888",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "43",
+								"isChatModerator": false,
+								"frameId": 8,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9946954": {
+								"id": "9946954",
+								"name": "Psixoz",
+								"lastLoginTime": "1638700621",
+								"serverId": "58",
+								"level": "126",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "286",
+								"isChatModerator": false,
+								"frameId": 3,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"9961275": {
+								"id": "9961275",
+								"name": "martbl",
+								"lastLoginTime": "1638690041",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "568",
+								"isChatModerator": false,
+								"frameId": 20,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"10004949": {
+								"id": "10004949",
+								"name": "Stormbringer",
+								"lastLoginTime": "1638675097",
+								"serverId": "58",
+								"level": "129",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "370",
+								"isChatModerator": false,
+								"frameId": 51,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"10008290": {
+								"id": "10008290",
+								"name": "Attack me",
+								"lastLoginTime": "1638676808",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "886",
+								"isChatModerator": false,
+								"frameId": 3,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"10036564": {
+								"id": "10036564",
+								"name": "HeyChris",
+								"lastLoginTime": "1638699381",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "105",
+								"isChatModerator": false,
+								"frameId": 5,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"10468027": {
+								"id": "10468027",
+								"name": "_Metropol Fox_",
+								"lastLoginTime": "1638696686",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "532",
+								"isChatModerator": false,
+								"frameId": 37,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"11333288": {
+								"id": "11333288",
+								"name": "xxx",
+								"lastLoginTime": "1638703253",
+								"serverId": "58",
+								"level": "124",
+								"clanId": "132328",
+								"clanRole": "4",
+								"avatarId": "695",
+								"isChatModerator": false,
+								"frameId": 27,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							},
+							"13862301": {
+								"id": "13862301",
+								"name": "Mira",
+								"lastLoginTime": "1638698086",
+								"serverId": "58",
+								"level": "130",
+								"clanId": "132328",
+								"clanRole": "255",
+								"avatarId": "861",
+								"isChatModerator": false,
+								"frameId": 52,
+								"leagueId": 3,
+								"allowPm": "all",
+								"showProfile": false,
+								"clanTitle": "Phoenix Ascended",
+								"clanIcon": {
+									"flagColor1": 1,
+									"flagColor2": 14,
+									"flagShape": 16,
+									"iconColor": 0,
+									"iconShape": 26
+								}
+							}
+						},
+						"news": "Ask in the guild chat for a $30 gold ticket instead of buying one for $45 - Discord: https://discord.gg/7aTtsdYcJP",
+						"activityPoints": 40100,
+						"dungeonPoints": 6109,
+						"blackList": {
+							"9700058": 0
+						},
+						"warriors": [
+							13862301,
+							9574182,
+							9802653,
+							9945536,
+							9845350,
+							9961275,
+							9725943,
+							10468027,
+							10036564,
+							9538445,
+							9590340,
+							9697202,
+							9878478,
+							9746355,
+							10008290,
+							9519326,
+							10004949,
+							9562748,
+							9701001,
+							9554589
+						],
+						"giftsCount": 3,
+						"daysToKick": "0",
+						"league": "1"
+					},
+					"membersStat": [
+						{
+							"userId": "9519326",
+							"activitySum": 14064,
+							"todayActivity": 900,
+							"dungeonActivitySum": 1849,
+							"todayDungeonActivity": 275,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9538445",
+							"activitySum": 15030,
+							"todayActivity": 2106,
+							"dungeonActivitySum": 2809,
+							"todayDungeonActivity": 232,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9554589",
+							"activitySum": 24886,
+							"todayActivity": 4288,
+							"dungeonActivitySum": 3233,
+							"todayDungeonActivity": 602,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9562748",
+							"activitySum": 11390,
+							"todayActivity": 0,
+							"dungeonActivitySum": 2400,
+							"todayDungeonActivity": 0,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9566390",
+							"activitySum": 9372,
+							"todayActivity": 838,
+							"dungeonActivitySum": 2100,
+							"todayDungeonActivity": 300,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9574182",
+							"activitySum": 9676,
+							"todayActivity": 1108,
+							"dungeonActivitySum": 900,
+							"todayDungeonActivity": 0,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9590340",
+							"activitySum": 8336,
+							"todayActivity": 0,
+							"dungeonActivitySum": 2245,
+							"todayDungeonActivity": 0,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9634920",
+							"activitySum": 10750,
+							"todayActivity": 278,
+							"dungeonActivitySum": 2161,
+							"todayDungeonActivity": 232,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9650978",
+							"activitySum": 13222,
+							"todayActivity": 0,
+							"dungeonActivitySum": 970,
+							"todayDungeonActivity": 0,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9665042",
+							"activitySum": 12201,
+							"todayActivity": 1092,
+							"dungeonActivitySum": 1870,
+							"todayDungeonActivity": 150,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9688248",
+							"activitySum": 13674,
+							"todayActivity": 1336,
+							"dungeonActivitySum": 1839,
+							"todayDungeonActivity": 151,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9697202",
+							"activitySum": 12132,
+							"todayActivity": 1980,
+							"dungeonActivitySum": 2610,
+							"todayDungeonActivity": 422,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9701001",
+							"activitySum": 12519,
+							"todayActivity": 184,
+							"dungeonActivitySum": 2359,
+							"todayDungeonActivity": 0,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9725943",
+							"activitySum": 11666,
+							"todayActivity": 1048,
+							"dungeonActivitySum": 3150,
+							"todayDungeonActivity": 570,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9746355",
+							"activitySum": 13316,
+							"todayActivity": 1952,
+							"dungeonActivitySum": 1585,
+							"todayDungeonActivity": 409,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9802653",
+							"activitySum": 17954,
+							"todayActivity": 2244,
+							"dungeonActivitySum": 2728,
+							"todayDungeonActivity": 463,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9845350",
+							"activitySum": 17298,
+							"todayActivity": 2004,
+							"dungeonActivitySum": 2936,
+							"todayDungeonActivity": 294,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9846519",
+							"activitySum": 14856,
+							"todayActivity": 266,
+							"dungeonActivitySum": 1677,
+							"todayDungeonActivity": 0,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9846590",
+							"activitySum": 11004,
+							"todayActivity": 438,
+							"dungeonActivitySum": 1770,
+							"todayDungeonActivity": 150,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9878478",
+							"activitySum": 11630,
+							"todayActivity": 748,
+							"dungeonActivitySum": 2138,
+							"todayDungeonActivity": 150,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9939065",
+							"activitySum": 24368,
+							"todayActivity": 3356,
+							"dungeonActivitySum": 1053,
+							"todayDungeonActivity": 150,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9945536",
+							"activitySum": 21097,
+							"todayActivity": 1706,
+							"dungeonActivitySum": 6480,
+							"todayDungeonActivity": 690,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9946954",
+							"activitySum": 12176,
+							"todayActivity": 1488,
+							"dungeonActivitySum": 2250,
+							"todayDungeonActivity": 0,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "9961275",
+							"activitySum": 23116,
+							"todayActivity": 2858,
+							"dungeonActivitySum": 3818,
+							"todayDungeonActivity": 0,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "10004949",
+							"activitySum": 10696,
+							"todayActivity": 100,
+							"dungeonActivitySum": 1800,
+							"todayDungeonActivity": 0,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "10008290",
+							"activitySum": 39048,
+							"todayActivity": 480,
+							"dungeonActivitySum": 3933,
+							"todayDungeonActivity": 340,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "10036564",
+							"activitySum": 23214,
+							"todayActivity": 1874,
+							"dungeonActivitySum": 3228,
+							"todayDungeonActivity": 150,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "10468027",
+							"activitySum": 8088,
+							"todayActivity": 150,
+							"dungeonActivitySum": 215,
+							"todayDungeonActivity": 0,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "11333288",
+							"activitySum": 12916,
+							"todayActivity": 2036,
+							"dungeonActivitySum": 2674,
+							"todayDungeonActivity": 379,
+							"raidSum": 0,
+							"wasChampion": false
+						},
+						{
+							"userId": "13862301",
+							"activitySum": 17924,
+							"todayActivity": 3242,
+							"dungeonActivitySum": 0,
+							"todayDungeonActivity": 0,
+							"raidSum": 0,
+							"wasChampion": false
+						}
+					],
+					"stat": {
+						"todayActivity": 3242,
+						"activitySum": 17924,
+						"dungeonActivitySum": 173,
+						"todayRaid": [],
+						"todayItemsActivity": 0,
+						"todayDungeonActivity": 0,
+						"activityForRuneAvailable": false,
+						"adventureStat": 0,
+						"clanWarStat": 0
+					},
+					"serverResetTime": 1638756000,
+					"clanWarEndSeasonTime": 1639225800,
+					"freeClanChangeInterval": {
+						"start": 1638619200,
+						"end": 1638792000
+					},
+					"giftUids": []
+				}
+			}
+		},
+		{
+			"ident": "group_1_body",
+			"result": {
+				"response": {
+					"9519326": {
+						"online": true,
+						"lastAction": "1638703915"
+					},
+					"9538445": {
+						"online": true,
+						"lastAction": "1638703911"
+					},
+					"9554589": {
+						"online": false,
+						"lastAction": "1638699904"
+					},
+					"9562748": {
+						"online": true,
+						"lastAction": "1638703915"
+					},
+					"9566390": {
+						"online": false,
+						"lastAction": "1638680070"
+					},
+					"9574182": {
+						"online": true,
+						"lastAction": "1638702643"
+					},
+					"9590340": {
+						"online": false,
+						"lastAction": "1638644292"
+					},
+					"9634920": {
+						"online": true,
+						"lastAction": "1638703795"
+					},
+					"9650978": {
+						"online": false,
+						"lastAction": "1638697378"
+					},
+					"9665042": {
+						"online": false,
+						"lastAction": "1638698142"
+					},
+					"9688248": {
+						"online": true,
+						"lastAction": "1638703785"
+					},
+					"9697202": {
+						"online": true,
+						"lastAction": "1638703910"
+					},
+					"9701001": {
+						"online": false,
+						"lastAction": "1638678268"
+					},
+					"9725943": {
+						"online": false,
+						"lastAction": "1638689545"
+					},
+					"9746355": {
+						"online": true,
+						"lastAction": "1638703534"
+					},
+					"9802653": {
+						"online": false,
+						"lastAction": "1638702842"
+					},
+					"9845350": {
+						"online": true,
+						"lastAction": "1638703903"
+					},
+					"9846519": {
+						"online": false,
+						"lastAction": "1638690220"
+					},
+					"9846590": {
+						"online": false,
+						"lastAction": "1638682089"
+					},
+					"9878478": {
+						"online": true,
+						"lastAction": "1638702115"
+					},
+					"9939065": {
+						"online": false,
+						"lastAction": "1638700226"
+					},
+					"9945536": {
+						"online": false,
+						"lastAction": "1638677833"
+					},
+					"9946954": {
+						"online": false,
+						"lastAction": "1638703665"
+					},
+					"9961275": {
+						"online": true,
+						"lastAction": "1638703681"
+					},
+					"10004949": {
+						"online": false,
+						"lastAction": "1638686334"
+					},
+					"10008290": {
+						"online": false,
+						"lastAction": "1638694136"
+					},
+					"10036564": {
+						"online": true,
+						"lastAction": "1638700475"
+					},
+					"10468027": {
+						"online": false,
+						"lastAction": "1638697682"
+					},
+					"11333288": {
+						"online": false,
+						"lastAction": "1638703306"
+					},
+					"13862301": {
+						"online": true,
+						"lastAction": "1638703915"
+					}
+				}
+			}
+		}
+	]
+}

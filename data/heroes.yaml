@@ -1,0 +1,86 @@
+heroes:
+- PLACEHOLDER
+- Aurora
+- Galahad
+- Keira
+- Astaroth
+- Kai
+- Phobos
+- Thea
+- Daredevil
+- Heidi
+- Faceless
+- Chabba
+- Arachne
+- Orion
+- Fox
+- Ginger
+- Dante
+- Mojo
+- Judge
+- Dark Star
+- Artemis
+- Markus
+- Peppy
+- Lian
+- Cleaver
+- Ishmael
+- Lilith
+- Luther
+- Qing Mao
+- Dorian
+- Cornelius
+- Jet
+- Helios
+- Lars
+- Krista
+- Jorgen
+- Maya
+- Jhu
+- Elmir
+- Ziri
+- Nebula
+- Karkh
+- Rufus
+- Celeste
+- Astrid and Lucas
+- Satori
+- Martha
+- Andvari
+- Sebastian
+- Yasmine
+- Corvus
+- Morrigan
+- Isaac
+- Alvanor
+- Tristan
+- Iris
+pets:
+- Fenris
+- Oliver
+- Merlin
+- Mara
+- Cain
+- Albus
+- Axel
+- Biscuit
+roles:
+- Mage:
+  - Celeste
+  - Satori
+  - Helios
+  - Orion
+  - Faceless
+  - Heidi
+  - Kai
+  - Judge
+  - Mojo
+  - Peppy
+  - Lars
+  - Krista
+- Tank: [ "Aurora", "Astaroth", "Chabba", "Cleaver", "Galahad", "Rufus", "Corvus", "Ziri", "Luther" ]
+- Marksman: [ "Artemis", "Fox", "Astrid & Lucas", "Jhu", "Keira", "Daredevil", "Ginger", "Dante"]
+- Healer: [ "Martha", "Thea", "Maya", "Markus", "Jet", "Dorian"]
+- Support: [ "Andvari", "Sebastian", "Nebula", "Cornelius", "Isaac", "Morrigan", "Alvanar"]
+- Warrior: [ "Qing Mao", "Yasmine", "Karkh", "Ishmael", "Elmir", "Tristan"]
+- Control: [ "Lian", "Arachne", "Jorgen", "Dark Star", "Phobos", "Lilith"]

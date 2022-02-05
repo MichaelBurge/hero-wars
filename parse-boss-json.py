@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#! nix-shell -i python3 -p python3 python3Packages.XlsxWriter python3Packages.numpy
+#! nix-shell -i python3 -p python3 python3Packages.XlsxWriter python3Packages.numpy python3Packages.pyyaml
 
 import json 
 import itertools
@@ -8,11 +8,15 @@ from datetime import datetime
 import argparse
 import numpy
 import math
+import yaml
+import glob
+#import torch
 
 parser = argparse.ArgumentParser()
 parser.add_argument('asgard_file', type=str, help='file containing JSON to convert to spreadsheet')
 parser.add_argument('guild_file', type=str, help='file containing guild data JSON')
 parser.add_argument('heroes_file', type=str, help='file containing hero and pet data')
+parser.add_argument('history_format', type=str, help='file glob template to compute historical data over')
 
 ALL_COLORS = [
     "NONE",
@@ -29,6 +33,37 @@ ALL_COLORS = [
 # Response 0: Not used
 # Response 1: Summary of damage
 # Response 2: Minions - not used
+
+def all_players(players_data):
+    """
+    {
+        results: {
+            1: {
+                result: {
+                    response: {
+                        clan: {
+                            members: {
+                                player_id: {
+                                    name:,
+                                },
+                                ...
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    """
+    for result in players_data["results"]:
+        response = result["result"]["response"]
+        if "clan" in response:
+            members = response["clan"]["members"]
+            for player_id, player in members.items():
+                if player["clanRole"]:
+                    yield player_id, player["name"]
+        else:
+            continue
 
 def lookup_player(players_data, player_id):
     """
@@ -51,8 +86,15 @@ def lookup_player(players_data, player_id):
         }
     }
     """
+    clan_pred = lambda x: x["result"]
     try:
-        return players_data["results"][1]["result"]["response"]["clan"]["members"][player_id]["name"]
+        for result in players_data["results"]:
+            response = result["result"]["response"]
+            if "clan" in response:
+                return response["clan"]["members"][player_id]["name"]
+            else:
+                continue
+        raise Exception("Unable to find guild member data")
     except KeyError as e:
         print("Unknown player: " + str(e))
         return None
@@ -107,7 +149,28 @@ def lookup_color(color):
     else:
         raise Exception("Unknown color id " + str(color))
 
-def add_damage_summaries_page(workbook, summary_data, guild_data):
+boss_difficulties = [65, 75, 85, 95, 105, 115, 125, 130, 140, 150, 160, 160 ]
+
+def next_difficulty(difficulty):
+    return boss_difficulties[boss_difficulties.index(int(difficulty)) + 1]
+
+def boss_damage_by_player_difficulty(match_data):
+    ret = {}
+    difficulties = {}
+    for player_id, matches in match_data["result"]["response"].items():
+        for match_id, match in matches.items():
+            bossProgress = list(match["progress"][0]["defenders"]["heroes"].values())[0]["extra"]
+            bossProgresses = [int(bossProgress[key]) for key in [ "damageTaken", "damageTakenNextLevel"]]
+            difficulty = int(match["result"]["level"])
+            ret.setdefault(player_id, {})
+            for progress in bossProgresses:
+                ret[player_id].setdefault(difficulty, 0.0)
+                ret[player_id][difficulty] += progress
+                difficulties[difficulty] = 1
+                difficulty = next_difficulty(difficulty)
+    return ret, sorted(difficulties.keys())
+
+def add_damage_summaries_page(workbook, summary_data, match_data, guild_data):
     """
     Output: Player|BossDamage|Boss Attacks|Morale Points|Minion Attacks
     Input:
@@ -128,24 +191,38 @@ def add_damage_summaries_page(workbook, summary_data, guild_data):
     MAX_BOSS_ATTEMPTS = 5
     MAX_MINION_ATTEMPTS = 9
     format_error = workbook.add_format({'bold': True, 'bg_color': 'red', 'font_color': 'yellow'})
+    format_warn = workbook.add_format({'bold': True, 'bg_color': 'yellow', 'font_color': 'black'})
     worksheet.write(0,0,"Player")
     worksheet.write(0,1,"Boss Damage")
     worksheet.write(0,2,"Boss Attempts")
     worksheet.write(0,3,"Minions Points")
     worksheet.write(0,4,"Minions Attempts")
     sorted_stats = sorted(summary_data["result"]["response"].items(), key=lambda x: int(x[1]["bossDamage"]), reverse=True)
-    for row_id, (player_id, player_stats) in zip(itertools.count(1), sorted_stats):
+    allplayers = all_players(guild_data)
+    absent_players = [(pid, {}) for pid, name in allplayers if pid not in summary_data["result"]["response"]]
+    boss_damages, difficulties = boss_damage_by_player_difficulty(match_data)
+    for i, difficulty in enumerate(difficulties, 5):
+        worksheet.write(0,i,f"Damage to {difficulty} boss")
+    for row_id, (player_id, player_stats) in zip(itertools.count(1), sorted_stats + absent_players):
         player_name = lookup_player(guild_data, player_id)
         if player_name is None:
             worksheet.write(row_id, 0, "Unknown player: " + player_id, format_error)
         else:
             worksheet.write(row_id, 0, player_name)
-        worksheet.write(row_id, 1, player_stats["bossDamage"])
-        bossAttemptsSpent = player_stats["bossAttemptsSpent"]
-        worksheet.write(row_id, 2, bossAttemptsSpent, None if bossAttemptsSpent == MAX_BOSS_ATTEMPTS else format_error)
-        worksheet.write(row_id, 3, player_stats["nodesPoints"])
-        nodesAttemptsSpent = player_stats["nodesAttemptsSpent"]
-        worksheet.write(row_id, 4, nodesAttemptsSpent, None if nodesAttemptsSpent == MAX_MINION_ATTEMPTS else format_error)
+        worksheet.write(row_id, 1, int(player_stats.get("bossDamage", 0)))
+        bossAttemptsSpent = player_stats.get("bossAttemptsSpent", 0)
+        worksheet.write(row_id, 2, int(bossAttemptsSpent), None if bossAttemptsSpent == MAX_BOSS_ATTEMPTS else format_error)
+        nodesPoints = player_stats.get("nodesPoints", 0)
+        worksheet.write(row_id, 3, int(nodesPoints), None if nodesPoints is not None else format_error)
+        nodesAttemptsSpent = player_stats.get("nodesAttemptsSpent", 0)
+        worksheet.write(row_id, 4, int(nodesAttemptsSpent), None if nodesAttemptsSpent == MAX_MINION_ATTEMPTS else format_error)
+        player_boss_damages = boss_damages.get(player_id)
+        for i, difficulty in enumerate(difficulties, 5):
+            if player_boss_damages is None:
+                worksheet.write(row_id, i, None, format_warn)
+            else:
+                damage = player_boss_damages.get(difficulty)
+                worksheet.write(row_id, i, damage)
 
 def add_match_detail_page(workbook, summary_data, guild_data, hero_data):
     """
@@ -205,7 +282,7 @@ def add_match_detail_page(workbook, summary_data, guild_data, hero_data):
         write_column(hero_name, canError=True)
         write_column(lookup_color(hero["color"]))
         write_column(hero["power"], format_integer)
-        write_column(hero["hp"], format_integer)
+        write_column(hero["hp"] + 40*hero["strength"], format_integer)
         write_column(hero.get("magicPenetration", 0), format=format_integer) # This can be non-existent if zero.
         write_column(hero.get("armorPenetration", 0), format=format_integer)
         write_column(lookup_pet(hero_data, hero["favorPetId"]), canError=True)
@@ -335,9 +412,14 @@ def add_hero_summary_page(workbook, boss_matches, hero_data):
     format_integer = workbook.add_format({'num_format': 1})
     rows = []
     for hero_id in range(1, num_heroes):
-        avg_over_nonzero = lambda arr: numpy.mean(arr[:, hero_id], axis=0, where=(arr[:, hero_id] > 0))
-        avg_power = avg_over_nonzero(arr_powers)
-        avg_team_damage = avg_over_nonzero(arr_hero_team_damages)
+        def avg_over_nonzero(arr):
+            nonzeroes, = numpy.where(arr[:, hero_id] > 0)
+            if len(nonzeroes) > 0:
+                return numpy.mean(arr[:, hero_id], axis=0, where=arr[:, hero_id] > 0).item()
+            else:
+                return None
+        avg_power = avg_over_nonzero(arr_powers) or 1
+        avg_team_damage = avg_over_nonzero(arr_hero_team_damages) or 0
         rows.append([
             lookup_hero(hero_data, hero_id),
             arr_counts[hero_id],
@@ -350,7 +432,58 @@ def add_hero_summary_page(workbook, boss_matches, hero_data):
         for col_id, cell in enumerate(row):
             worksheet.write(row_id, col_id, cell, format_integer)
 
-def convert_json_to_xlsx(asgard_data, guild_data, hero_data):
+def add_team_summary_page(workbook, boss_matches, guild_data, hero_data):
+    boss = {
+        "armor": 35000,
+        "meteorShowerMaxDamage": 120000
+    }
+    hero_role = lambda name: next([ role for role, name in hero_data["primary_roles"].items() if name in x ])
+    # 1. A Candidate is a hero with 50k+ power OR is support/healer role.
+    is_candidate = lambda hero: hero["power"] > 50000 or hero_role(hero) in ["support", "healer"]
+    # 2. Damage type is inferred as Physical if hero has Armor Penetration(AP) stat, Magical with MP, and pure otherwise.
+    def damage_stats(hero):
+        if hero.contains_key("armorPenetration"):
+            return hero["physicalAttack"], max(hero["armorPenetration"] - boss["armor"], 0)
+        elif hero.contains_key("magicPenetration"):
+            return hero["magicAttack"], max(hero["magicPenetration"] - boss["magicDefense"], 0)
+        else:
+            return max(hero["physicalAttack"], hero["magicAttack"]), 0
+    # Checks:
+    # 1. Do damage dealers have enough AP/MP for the boss?
+    
+    # 2. Does the team have a healer?
+    # 3. Can every hero survive meteor(HP > physical attack OR armor artifact buff is present
+    # 4. Is there a solution for defense orbs(Warrior, or Marksman that one-shots defense orbs and isn't Jhu, or special hero(Orion))?
+    # 5. 
+    #player_candidates = filter(lambda hero: hero["power"] > 50000 hero_role(hero) == )
+
+def add_history_summary_page(workbook, history_data, guild_data):
+    max_damages = {}
+    difficulties = set()
+    # Compute maximum damage rollup
+    for asgard_data in history_data:
+        one_summary, one_difficulties = boss_damage_by_player_difficulty(asgard_data)
+        for difficulty in one_difficulties:
+            difficulties.add(difficulty)
+        for player_id, player_difficulty_damages in one_summary.items():
+            for difficulty, damage in player_difficulty_damages.items():
+                max_damages.setdefault(player_id, {})
+                max_damages[player_id].setdefault(difficulty, damage)
+                max_damages[player_id][difficulty] = max(max_damages[player_id][difficulty], damage)
+    # Write summary
+    worksheet = workbook.add_worksheet("Player Historical Summary")
+    worksheet.write(0,0,"Player")
+    for i, difficulty in enumerate(sorted(difficulties), 1):
+        worksheet.write(0,i,f"Max total damage to {difficulty} boss")
+    sorted_stats = sorted(max_damages.items(), key=lambda x: x[1].get(sorted(difficulties)[-2], 0.0), reverse=True)
+    for row, (player_id, player_difficulty_damages) in enumerate(sorted_stats, 1):
+        worksheet.write(row, 0, lookup_player(guild_data, player_id))
+        for col, difficulty in enumerate(sorted(difficulties), 1):
+            worksheet.write(row, col, player_difficulty_damages.get(difficulty))
+
+def read_asgard_data_json(filename):
+    f = open(filename)
+    asgard_data = json.load(f)
     timestamp = asgard_data["date"] # 1638051586
     if len(asgard_data["results"]) == 4:
         _, summary_data, minion_matches, boss_matches = asgard_data["results"]
@@ -358,22 +491,32 @@ def convert_json_to_xlsx(asgard_data, guild_data, hero_data):
         summary_data, minion_matches, boss_matches = asgard_data["results"]
     else:
         raise Exception("Unknown number of results in JSON")
+    return timestamp, summary_data, minion_matches, boss_matches
+
+def convert_json_to_xlsx(asgard_data, guild_data, hero_data, history_data):
+    timestamp, summary_data, minion_matches, boss_matches = asgard_data
     workbook = xlsxwriter.Workbook(datetime.utcfromtimestamp(timestamp).strftime('Asgard-%Y-%m-%dT%H:%M:%S.xlsx'))
-    add_damage_summaries_page(workbook, summary_data, guild_data)
+    add_damage_summaries_page(workbook, summary_data, boss_matches, guild_data)
     add_match_detail_page(workbook, boss_matches, guild_data, hero_data)
     add_hero_summary_page(workbook, boss_matches, hero_data)
+    add_team_summary_page(workbook, boss_matches, guild_data, hero_data)
+    add_history_summary_page(workbook, history_data, guild_data)
     workbook.close()
 
 
 def main():
     args = parser.parse_args()
-    f = open(args.asgard_file)
-    asgard_data = json.load(f)
+    asgard_data = read_asgard_data_json(args.asgard_file)
     f = open(args.guild_file)
     guild_data = json.load(f)
     f = open(args.heroes_file)
-    hero_data = json.load(f)
+    hero_data = yaml.safe_load(f)
 
-    convert_json_to_xlsx(asgard_data, guild_data, hero_data)
+    history_data = []
+    for file in glob.glob(args.history_format):
+        timestamp, summary_data, minion_matches, boss_matches = read_asgard_data_json(file)
+        history_data.append(boss_matches)
+
+    convert_json_to_xlsx(asgard_data, guild_data, hero_data, history_data)
 
 main()
